@@ -6,21 +6,21 @@ from .models import Product
 
 
 def index(request):
-    return render(request, "home/index.html", {})
+    return render(request, "index.html", {})
 
 
 def shop(request):
     products = Product.objects.all()
-    return render(request, "home/shop.html", {'products': products})
+    return render(request, "shop.html", {'products': products})
 
 
 def checkout(request):
-    return render(request, "home/checkout.html", {})
+    return render(request, "checkout.html", {})
 
 
 def cart(request):
-    return render(request, "home/cart.html", {})
+    return render(request, "shopping_cart/cart.html", {})
 
 
 def about(request):
-    return render(request, "home/about.html", {})
+    return render(request, "about.html", {})
