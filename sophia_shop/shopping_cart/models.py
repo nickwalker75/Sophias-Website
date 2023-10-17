@@ -1,25 +1,24 @@
 import uuid
 from django.db import models
-from home.models import Customer, Product
+from home.models import Customer, Category
 
 # Create your models here.
+class Product(models.Model):
+    title = models.CharField(max_length=200,
+                             default="Product Title")
+    description = models.CharField(max_length=200,
+                                   default="Product Description")
+    price = models.DecimalField(decimal_places=2, max_digits=6,
+                                default=0.00)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    image = models.ImageField(upload_to='uploads/products/', default='')
+    is_avaliable = models.BooleanField(default=True)
 
-
-class Cart(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
-    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    completed = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.id)
-
-
-class CartItem(models.Model):
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="products")
-    cart = models.ForeignKey(
-        Cart, on_delete=models.CASCADE, related_name="cartItems")
-    quantity = models.IntegerField(default=0)
+    # Product on sale
+    on_sale = models.BooleanField(default=False)
+    sale_price = models.DecimalField(
+        decimal_places=2, max_digits=6, default=0.00)
 
     def __str__(self):
-        return str(self.product.title)
+        return self.title
+    

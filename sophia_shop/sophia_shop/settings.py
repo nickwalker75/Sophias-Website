@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'jazzmin',
     'sophia_shop',
     'shopping_cart',
+    'rest_framework',
     'home',
     'django.contrib.admin',
     'django.contrib.auth',
