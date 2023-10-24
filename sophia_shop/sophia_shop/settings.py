@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'jazzmin',
     'sophia_shop',
-    'shopping_cart',
+    'cart',
     'rest_framework',
     'home',
     'django.contrib.admin',

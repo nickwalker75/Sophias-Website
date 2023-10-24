@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Product
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from .models import Product, UserProfile
 from .forms import NewUserForm
 
 # Create your views here.
 
-
+# Core views
 def index(request):
     return render(request, "index.html", {})
 
@@ -49,6 +50,7 @@ def login_user(request):
         return render(request, 'users/login_user.html', {})
 
 
+# User creation
 def logout_user(request):
     logout(request)
     messages.success(request, "Logout Successful")
@@ -68,3 +70,24 @@ def register_user(request):
     return render(request, 'users/register_user.html', {
         'register_form': form,
     })
+
+# UserProfile managment
+class UserProfileDetailView(DetailView):
+    model = UserProfile
+    template_name = "core/userprofile_detail.html"
+
+class UserProfileListView(ListView):
+    model = UserProfile
+    template_name = "core/userprofile_list.html"
+
+class UserProfileCreateView(CreateView):
+    model = UserProfile
+    template_name = "core/userprofile_create.html"
+
+class UserProfileUpdateView(UpdateView):
+    model = UserProfile
+    template_name = "core/userprofile_update.html"
+
+class UserProfileDeleteView(DeleteView):
+    model = UserProfile
+    template_name = "core/userprofile_delete.html"
