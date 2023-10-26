@@ -1,5 +1,6 @@
 <!doctype html>
 {% load static %}
+{% load cart_tag %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -26,13 +27,12 @@
                             <li class="nav-item"><a class="nav-link" href="/login_user">Login</a></li>
                         {% endif %}
                     </ul>
-                    <form class="d-flex" action="/cart"> {% csrf_token %}
-                        <button class="btn btn-outline-light" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
+            
+                    <a class="btn btn-outline-light" href="/cart/cart-detail/">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">{{request.session.cart|length}}</span>
+                    </a>
                 </div>
             </div>
         </nav>

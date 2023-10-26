@@ -7,7 +7,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('home', '0008_remove_order_customer_remove_order_product_and_more'),
-        ('shopping_cart', '0002_remove_cart_completed_cart_created_at_and_more'),
     ]
 
     operations = [
