@@ -1,0 +1,10 @@
+asgiref==3.7.2
+Django==4.2.6
+django-countries==7.5.1
+django-jazzmin==2.6.0
+-e git+https://github.com/nickwalker75/django-shopping-cart.git@dc68ac3c1ea98389ac85fadd58f0ef5fd41e28c9#egg=django_shopping_cart
+djangorestframework==3.14.0
+Pillow==10.0.1
+pytz==2023.3.post1
+sqlparse==0.4.4
+typing_extensions==4.8.0
