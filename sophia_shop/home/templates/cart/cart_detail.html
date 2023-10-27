@@ -9,6 +9,7 @@
         </div>
     </div>
 </header>
+{% if request.session.cart.items %}
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
@@ -62,6 +63,10 @@
                 {% endif %}
             {% endfor %}                   
         </div>
+        <p>Total: ${{ cart_total_amount|floatformat:2 }}</p>
     </div>
 </section>
+{% else %}
+<p>Cart is Empty</p>
+{% endif %}
 {% endblock %}

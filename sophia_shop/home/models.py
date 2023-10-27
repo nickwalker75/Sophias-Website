@@ -6,6 +6,8 @@ from django_countries.fields import CountryField
 import uuid
 
 # Product Models
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
@@ -15,14 +17,15 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(models.Model):
     name = models.CharField(max_length=200,
-                             default="Product Title")
+                            default="Product Title")
     description = models.CharField(max_length=200,
                                    default="Product Description")
     price = models.FloatField(default=0.00)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
-    image = models.ImageField(upload_to='uploads/products/', default='')
+    image = models.ImageField(upload_to='uploads/products', default='')
     is_avaliable = models.BooleanField(default=True)
 
     # Product on sale
@@ -30,7 +33,7 @@ class Product(models.Model):
     sale_price = models.FloatField(blank=True)
 
     def __str__(self):
-        return self.name		
+        return self.name
 
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"pk": self.pk})
@@ -49,10 +52,10 @@ class UserProfile(models.Model):
         return reverse("profile_detail", kwargs={"pk": self.pk})
 
 
-
 # Checkout Models
 class CheckoutAddress(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     street_address = models.CharField(max_length=100)
     apartment_address = models.CharField(max_length=100)
     country = CountryField(multiple=False)

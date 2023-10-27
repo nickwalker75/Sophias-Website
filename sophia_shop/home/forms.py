@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
+from django.core.exceptions import ValidationError
 
 
 # User Forms
@@ -19,7 +20,7 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
-    
+
 
 # Checkout
 PAYMENT = (

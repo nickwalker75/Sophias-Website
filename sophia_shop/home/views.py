@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView, View
 from cart.cart import Cart
 from .models import Product, UserProfile, CheckoutAddress
 from .forms import NewUserForm, CheckoutForm
@@ -10,6 +11,8 @@ from .forms import NewUserForm, CheckoutForm
 # Create your views here.
 
 # Core views
+
+
 def index(request):
     return render(request, "index.html", {})
 
@@ -66,29 +69,36 @@ def register_user(request):
             user = form.save()
             login(request, user)
             messages.success(request, ("Registration Complete"))
-            return redirect('/')  
-        messages.error(request, "Error: Registration Unsuccessful. Invalid Information")
+            return redirect('/')
+        messages.error(
+            request, "Error: Registration Unsuccessful. Invalid Information")
     form = NewUserForm()
     return render(request, 'users/register_user.html', {
         'register_form': form,
     })
 
 # UserProfile managment
+
+
 class UserProfileDetailView(DetailView):
     model = UserProfile
     template_name = "core/userprofile_detail.html"
+
 
 class UserProfileListView(ListView):
     model = UserProfile
     template_name = "core/userprofile_list.html"
 
+
 class UserProfileCreateView(CreateView):
     model = UserProfile
     template_name = "core/userprofile_create.html"
 
+
 class UserProfileUpdateView(UpdateView):
     model = UserProfile
     template_name = "core/userprofile_update.html"
+
 
 class UserProfileDeleteView(DeleteView):
     model = UserProfile
@@ -140,3 +150,45 @@ def cart_detail(request):
     return render(request, 'cart/cart_detail.html')
 
 # Checkout views
+
+
+class CheckoutView(View):
+    def get(self, *args, **kwargs):
+        form = CheckoutForm()
+        context = {
+            'form': form
+        }
+        return render(self.request, 'checkout.html', context)
+
+    def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+
+        try:
+            order = Cart.objects.get(user=self.request.user, ordered=False)
+            if form.is_valid():
+                street_address = form.cleaned_data.get('street_address')
+                apartment_address = form.cleaned_data.get('apartment_address')
+                country = form.cleaned_data.get('country')
+                zip = form.cleaned_data.get('zip')
+                same_billing_address = form.cleaned_data.get(
+                    'same_billing_address')
+                save_info = form.cleaned_data.get('save_info')
+                payment_option = form.cleaned_data.get('payment_option')
+
+                checkout_address = CheckoutAddress(
+                    user=self.request.user,
+                    street_address=street_address,
+                    apartment_address=apartment_address,
+                    country=country,
+                    zip=zip
+                )
+                checkout_address.save()
+                order.checkout_address = checkout_address
+                order.save()
+                return redirect('checkout')
+            messages.warning(self.request, "Failed Chekout")
+            return redirect('checkout')
+
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an order")
+            return redirect("order-summary")

@@ -16,10 +16,14 @@ urlpatterns += [
     path("logout_user/", views.logout_user, name="logout"),
     path("register_user/", views.register_user, name="register"),
     path('profiles/', views.UserProfileListView.as_view(), name='profile-list'),
-    path('profile/<int:pk>/', views.UserProfileDetailView.as_view(), name='profile-detail'),
-    path('profile/create/', views.UserProfileCreateView.as_view(), name='profile-create'),
-    path('profile/<int:pk>/update/', views.UserProfileUpdateView.as_view(), name='profile-update'),
-    path('profile/<int:pk>/delete/', views.UserProfileDeleteView.as_view(), name='profile-delete'),
+    path('profile/<int:pk>/', views.UserProfileDetailView.as_view(),
+         name='profile-detail'),
+    path('profile/create/', views.UserProfileCreateView.as_view(),
+         name='profile-create'),
+    path('profile/<int:pk>/update/',
+         views.UserProfileUpdateView.as_view(), name='profile-update'),
+    path('profile/<int:pk>/delete/',
+         views.UserProfileDeleteView.as_view(), name='profile-delete'),
 ]
 
 # Shopping cart Urls
@@ -31,13 +35,14 @@ urlpatterns += [
     path('cart/item_decrement/<int:id>/',
          views.item_decrement, name='item_decrement'),
     path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
-    path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
+    path('cart/cart-detail/', views.cart_detail, name='cart_detail'),
 ]
 
 # Checkout Urls
-urlpatterns += [
-    path('checkout', views.CheckoutView.as_view(), name='checkout')
-]
+# urlpatterns += [
+#    path('checkout', views.CheckoutView.as_view(), name='checkout')
+# ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
