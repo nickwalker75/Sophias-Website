@@ -2,5 +2,17 @@
 
 {% block content %}
 <!-- checkout html page -->
-
+<div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">Checkout</h1>
+    </div>
+  </div>
+  
+  <div class="container">
+      <form method="POST" action="{% url 'register' %}">{% csrf_token %}
+          {{ checkout_form }}
+          <!--Submit button-->
+          <button type="submit" class="btn btn-primary btn-lg">Checkout</button>
+      </form>
+  </div>
 {% endblock %}

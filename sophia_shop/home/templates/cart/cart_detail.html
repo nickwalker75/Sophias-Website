@@ -64,6 +64,7 @@
             {% endfor %}                   
         </div>
         <p>Total: ${{ cart_total_amount|floatformat:2 }}</p>
+        <a class="btn btn-outline-dark mt-auto" href="{% url 'checkout' %}">Checkout</a>
     </div>
 </section>
 {% else %}
